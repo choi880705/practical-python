@@ -1,14 +1,18 @@
-"""
-practical python 연습
-"""
+# Assume some initial values for height, BOUNCE_RATE, and num_bounce
+height = 100
+BOUNCE_RATE = 0.6
+num_bounce = 0
 
-import urllib.request
 
-u = urllib.request.urlopen(
-    "http://ctabustracker.com/bustime/map/getStopPredictions.jsp?stop=14791&route=22"
-)
-from xml.etree.ElementTree import parse
+def wloop(height=100):
+    print("made with while statement")
+    while num_bounce < 10:  # Run 10 times
+        height *= BOUNCE_RATE  # BOUNCE height = BOUNCE height * 0.6
+        num_bounce += 1  # increase count by 1
+        print(
+            f"{num_bounce} times: {round(height, 4)}"
+        )  # Print the bounce height with 4 decimal places
 
-doc = parse(u)
-for pt in doc.findall(".//pt"):
-    print(pt.text)
+
+# Call the function
+wloop()

@@ -51,3 +51,5 @@ while principal > 0:
     print("남은원금: ", round(principal, 2))
 
 print()
+print()
+print()

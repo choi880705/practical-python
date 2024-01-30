@@ -16,12 +16,21 @@ def portfolio_cost(filename):
     """
     with open(filename, "rt") as f:
         cost = 0
+        missvalue = 0  # 잘못된 데이터 계수
         headers = next(f).split(",")  # 헤더 추출, 분리
         for line in f:  # 모든 라인 처리
             row = line.split(",")  # 티커, 수량, 가격
-            cost += int(row[1]) * float(row[2])  # 수량 * 가격
-    return cost
+            try:
+                shares = int(row[1])  # 수량이 정상이면 shares에 저장
+                price = float(row[2])  # 가격이 정상이면 price에 저장
+                cost += shares * price  # 수량 * 가격
+            except ValueError:
+                print("수량 또는 가격을 읽을 수 없다", line)  # 비정상적인 라인을 계산하지 않고 계속 진행
+                missvalue += 1  # 에러 카운트
+
+    return cost, missvalue  # 매수금액, 에러갯수
 
 
-cost = portfolio_cost("data/portfolio.csv")
+cost, missvalue = portfolio_cost("data/missing.csv")
 print("Total cost:", cost)
+print(f"잘못된 데이터는 {missvalue}개 입니다")
